@@ -1,6 +1,6 @@
 # PSO
 
-###Raspi ssh configuration
+### Raspi ssh configuration
 
 1- ativar SSH.
 		-In a terminal type “sudo raspi-config”.
