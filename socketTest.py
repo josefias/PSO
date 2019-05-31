@@ -17,23 +17,20 @@ print("conected!!")
 while True:
         msg = s.recv(1024)
         time.sleep(0.5)
-        msg = pickle.loads(msg)
+        msg = str(msg)
         print("recebido -%s-" % msg)
         if(msg != "abort"):
-                if(isinstance(msg , str)):
-                        msg = msg.rstrip() #retirar um \n que vem com a string
-                        print("is a string \"{%s}\"" % msg)
-                        #CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
-                        #
-                        #
+		msg = msg.split(",")
+		if(isinstance(msg , str):
+			print("is a string \"%s\"" % msg)
+                	#CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
+                	#
+                	#
+		else:
+			print("is a list ||%s ||| %s|| " % (msg[0],msg[1]) )
 
-                if(isinstance(msg , tuple)):
-                        print("is a tuple \"{%s}\"" % msg) 
-                        #CODIGO PARA CLIENTE QUE OPERA 2 DRONES
-                        #
-                        #
         else:
-                print("there are no drones.\n you can rest now.")
+                print("there are no drones.\n you can rest now.(%s)" % s.getpeername())
                 s.close()
                 quit()
 # close the connection
