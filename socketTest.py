@@ -19,7 +19,7 @@ while True:
         time.sleep(0.5)
         msg = str(msg)
         print("recebido -%s-" % msg)
-        if(msg != "abort"):
+        if(msg != "abort" or msg != ['']):
 		msg = msg.split(",")
 		if( len(msg) < 2 ):
 			print("is a string \"%s\"" % msg)
@@ -30,7 +30,7 @@ while True:
 			print("is a list ||%s ||| %s|| " % (msg[0],msg[1]) )
 
         else:
-                print("there are no drones.\n you can rest now.(%s)" % s.getpeername())
+                print("there are no drones.\n you can rest now." )
                 s.close()
                 quit()
 # close the connection
