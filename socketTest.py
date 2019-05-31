@@ -24,9 +24,9 @@ while True:
         if(msg != "abort"):
 		msg = msg.split(",")
 		if( len(msg) < 2 ):
-			print("is a string \"%s\"" % msg)
+			print(type(msg[0]))
                 	#CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
-                	mambo = Mambo(msg , use_wifi=False)
+                	mambo = Mambo(msg[0] , use_wifi=False)
 			success = mambo.connect(num_retries=2)
 			if(success):
 				mambo.takeoff()
@@ -35,7 +35,18 @@ while True:
                 	
 		else:
 			print("is a list ||%s ||| %s|| " % (msg[0],msg[1]) )
-			
+			mambo1 = Mambo(msg[0] , use_wifi=False)
+			mambo2 = Mambo(msg[1] , use_wifi=False)
+			success = mambo1.connect(num_retries=2)
+			if(success):
+				success = mambo2.connect(num_retries=2)
+			if(success):
+				mambo1.takeoff()
+				mambo2.takeoff()
+				mambo1.smart_sleep(1)
+				mambo2.smart_sleep(1)
+				mambo1.land()
+				mambo2.land()			
         else:
                 print("there are no drones.\n you can rest now." )
                 s.close()
