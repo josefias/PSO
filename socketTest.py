@@ -21,7 +21,7 @@ while True:
         print("recebido -%s-" % msg)
         if(msg != "abort"):
 		msg = msg.split(",")
-		if(isinstance(msg , str):
+		if( len(msg) < 2 ):
 			print("is a string \"%s\"" % msg)
                 	#CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
                 	#
