@@ -1,7 +1,7 @@
 """
 Mambo class holds all of the methods needed to pilot the drone from python and to ask for sensor
 data back from the drone
-
+JPPPPPPPPPPPPPPPPPPPPPPPPPP
 Author: Amy McGovern, dramymcgovern@gmail.com
 Author: Alexander Zach, https://github.com/alex-zach, groundcam support
 Author: Valentin Benke, https://github.com/Vabe7, groundcam support
@@ -69,6 +69,7 @@ class MinidroneSensors:
         self.speed_y = 0
         self.speed_z = 0
         self.speed_ts = 0
+        self.last_speed_ts = 0
 
         # these are only available on wifi
         self.altitude = -1
