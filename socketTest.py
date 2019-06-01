@@ -27,7 +27,8 @@ while True:
 			print(type(msg[0]))
                 	#CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
                 	mambo = Mambo(msg[0] , use_wifi=False)
-			success = mambo.connect(num_retries=2)
+			success = mambo.connect(num_retries=5)
+			print(success)
 			if(success):
 				mambo.takeoff()
 				mambo.smart_sleep(1)
@@ -38,8 +39,10 @@ while True:
 			mambo1 = Mambo(msg[0] , use_wifi=False)
 			mambo2 = Mambo(msg[1] , use_wifi=False)
 			success = mambo1.connect(num_retries=2)
+			print(success)
 			if(success):
 				success = mambo2.connect(num_retries=2)
+				print(success)
 			if(success):
 				mambo1.takeoff()
 				mambo2.takeoff()
