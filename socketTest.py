@@ -38,7 +38,7 @@ while True:
 			print("is a list ||%s ||| %s|| " % (msg[0],msg[1]) )
 			mambo1 = Mambo(msg[0] , use_wifi=False)
 			mambo2 = Mambo(msg[1] , use_wifi=False)
-			success = mambo1.connect(num_retries=2)
+			success = mambo1.connect(num_retries=5)
 			print(success)
 			if(success):
 				success = mambo2.connect(num_retries=2)
