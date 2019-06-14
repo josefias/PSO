@@ -1,4 +1,3 @@
-# Import socket module 
 import socket
 import pickle
 import time
@@ -8,18 +7,32 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Define the port on which you want to connect 
 port = 8881
-aux  = 0
-s.connect(("10.0.6.163", port))
-print("conected to 10.0.6.163")
+msg = "nada"
+#s.connect(("10.0.6.163", port)) # IP UBI
+s.connect(("0.0.0.0", port))    # IP casa
+print("conected!!")
 # connect to the server on local computer 
-while(aux < 11):
-        strs = s.recv(1024)
-        strs = pickle.loads(strs)
-        print(aux,strs)
-        aux = aux + 1
-        time.sleep(2)
-# receive data from the server 
-#strs = b'client data' 
+while True:
+        msg = s.recv(1024)
+        time.sleep(0.5)
+        msg = pickle.loads(msg)
+        print(f"recebido -{msg}-")
+        if(msg != "abort"):
+                if(isinstance(msg , str)):
+                        msg = msg.rstrip() #retirar um \n que vem com a string
+                        print(f"is a string \"{msg}\"")
+                        #CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
+                        #
+                        #
 
+                if(isinstance(msg , tuple)):
+                        print(f"is a tuple \"{msg}\"") 
+                        #CODIGO PARA CLIENTE QUE OPERA 2 DRONES
+                        #
+                        #
+        else:
+                print("there are no drones.\n you can rest now.")
+                s.close()
+                quit()
 # close the connection
 s.close()	 
