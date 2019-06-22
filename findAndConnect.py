@@ -5,31 +5,29 @@ Author: Amy McGovern
 """
 
 from pyparrot.Minidrone import Mambo
-import time  
+import time
 droneList = []
-
-
- 
 
 
 def swarmAssemble():
     global droneList
-    fh = open("../pyparrot/scripts/drones.txt")
+    fh = open("drones.txt")
     mamboAddr = fh.readlines()
 
-    #CONNECT TO ALL DRONES
+    # CONNECT TO ALL DRONES
     for droneAddr in mamboAddr:
         mambo = Mambo(droneAddr.strip(), use_wifi=False)
         print("trying to connect 1")
-        success = mambo.connect(num_retries=2)
+        success = mambo.connect(num_retries=3)
         droneList.append(mambo)
         print("connected: %s" % success)
-    
+
     fh.close()
+
 
 def swarmTakeoff():
     global droneList
-    #TAKE OFF
+    # TAKE OFF
     for drone in droneList:
         i = 0
         print("sleeping")
@@ -49,11 +47,13 @@ def swarmTakeoff():
         drone.updateXYZ()
         '''
 
+
 def swarmLand():
     global droneList
     for drone in droneList:
         drone.smart_sleep(1)
         drone.land()
+
 
 def swarmDisconnect():
     global droneList
@@ -62,23 +62,23 @@ def swarmDisconnect():
         drone.disconnect()
 
 
-
 def main():
     global droneList
-            
+
     swarmAssemble()
     swarmTakeoff()
-    print("aqui estamos (%.3f,%.3f,%.3f)" % droneList[0].getXYZ() )    
+    for drone in droneList:
+        drone.fly_direct(0, 50, 0, 0, 1)
+		
+    #print("aqui estamos (%.3f,%.3f,%.3f)" % droneList[0].getXYZ() )
     '''
     for drone in droneList:
         drone.GoTo(1,0,0)
         print("aqui estamos (%.3f,%.3f,%.3f)" % drone.getXYZ() )
     '''
-    time.sleep(20)
     swarmLand()
     swarmDisconnect()
 
 
-
 if __name__ == "__main__":
-    main()    
+    main()
