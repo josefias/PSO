@@ -10,7 +10,7 @@ from pyparrot.Minidrone import Mambo
 mamboAddr = "d0:3a:e3:53:e6:3a"
 
 # make my mambo object
-# remember to set True/False for the wifi depending on if you are using the wifi or the BLE to connect
+# remember to set True/False for the wifi depending on if you are 
 mambo = Mambo(mamboAddr, use_wifi=False)
 
 print("trying to connect")
@@ -30,7 +30,7 @@ if (success):
     primas = mambo.sensors.speed_ts/1000
     print(primas)
     # print da velocidade antes de arrancar
-    print("v= ", mambo.sensors.speed_x)
+    print("v= %f"% mambo.sensors.speed_x)
     mambo.fly_direct(0,40,0,0,1)
     mambo.smart_sleep(0.3)
     # retirar a segunda velocidade
@@ -39,9 +39,9 @@ if (success):
     primas = mambo.sensors.speed_ts/1000 -primas
     
     print(primas)
-    print("v= ", vel)
+    print("v= %f"  % vel)
     d = vel*primas
-    print("distancia = ", d)
+    print("distancia = %f" % d)
     
     mambo.land()
     mambo.smart_sleep(2)
