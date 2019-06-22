@@ -26,22 +26,22 @@ if (success):
 
     print("taking off!")
     mambo.safe_takeoff(5)
-    #primas vai ser o primeiro time Stamp (/1000 para converter em Segundos)
+    # primas vai ser o primeiro time Stamp (/1000 para converter em Segundos)
     primas = mambo.sensors.speed_ts/1000
     print(primas)
-    #print da velocidade antes de arrancar
-    print("v= "+mambo.sensors.speed_x)
+    # print da velocidade antes de arrancar
+    print("v= ", mambo.sensors.speed_x)
     mambo.fly_direct(0,40,0,0,1)
     mambo.smart_sleep(0.3)
-    #retirar a segunda velocidade
+    # retirar a segunda velocidade
     vel = mambo.sensors.speed_x
-    #retirar o tempo depois da deslocação ter terminado
+    # retirar o tempo depois da deslocação ter terminado
     primas = mambo.sensors.speed_ts/1000 -primas
     
     print(primas)
-    print("v= "+vel)
+    print("v= ", vel)
     d = vel*primas
-    print("distancia = "+d)
+    print("distancia = ", d)
     
     mambo.land()
     mambo.smart_sleep(2)
