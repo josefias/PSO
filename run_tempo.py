@@ -30,7 +30,7 @@ if (success):
     primas = mambo.sensors.speed_ts/1000
     print(primas)
     #print da velocidade antes de arrancar
-    print(f"v= {mambo.sensors.speed_x}")
+    print("v= "+mambo.sensors.speed_x)
     mambo.fly_direct(0,40,0,0,1)
     mambo.smart_sleep(0.3)
     #retirar a segunda velocidade
@@ -39,9 +39,9 @@ if (success):
     primas = mambo.sensors.speed_ts/1000 -primas
     
     print(primas)
-    print(f"v= {vel}")
+    print("v= "+vel)
     d = vel*primas
-    print(f"distancia = {d}")
+    print("distancia = "+d)
     
     mambo.land()
     mambo.smart_sleep(2)
