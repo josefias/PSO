@@ -52,7 +52,7 @@ while True:
 					if(t % 2 == 0):
 					 	self.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
 					else:
-						 self.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=-50,duration=1)
+						 self.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=-30,duration=1)
 									
 				mambo2.smart_sleep(1)
 				mambo1.land()
