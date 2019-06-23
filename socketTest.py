@@ -42,7 +42,7 @@ while True:
 			success = mambo1.connect(num_retries=5)
 			print(success)
 			if(success):
-				success = mambo2.connect(num_retries=2)
+				success = mambo2.connect(num_retries=5)
 				print(success)
 			if(success):
 				mambo1.takeoff()
