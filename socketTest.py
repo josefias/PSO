@@ -9,8 +9,8 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # GLOBAL 
 port = 8881
 msg = "nada"
-t = 10
 droneList = []
+t = 0
 
 s.connect(("10.0.6.163", port)) # IP UBI
 #s.connect(("0.0.0.0", port))    # IP casa
@@ -48,12 +48,20 @@ while True:
 				mambo1.takeoff()
 				mambo2.takeoff()
 				mambo1.smart_sleep(1)
-				while t > 10:
+				while t < 10:
 					if(t % 2 == 0):
-					 	self.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+						print("go up")
+					 	mambo1.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+						mambo1.smart_sleep(1)
+					 	mambo2.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+						mambo2.smart_sleep(1)
 					else:
-						 self.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=-30,duration=1)
-									
+						print("go down")
+						mambo1.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=-30,duration=1)
+						mambo1.smart_sleep(1)
+					 	mambo2.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+						mambo2.smart_sleep(1)
+					t = t + 1			
 				mambo2.smart_sleep(1)
 				mambo1.land()
 				mambo2.land()			
