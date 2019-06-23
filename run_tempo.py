@@ -20,17 +20,23 @@ print("connected: %s" % success)
 if (success):
     # get the state information
     print("sleeping")
-    mambo.smart_sleep(2)
+    mambo.smart_sleep(1)
     mambo.ask_for_state_update()
-    mambo.smart_sleep(2)
+    mambo.smart_sleep(1)
 
     print("taking off!")
-    mambo.safe_takeoff(5)
+    mambo.takeoff()
+
+    # enquanto o speed_ts == 0 esperar, pois os sensores ainda não responderam todos
+    while mambo.sensors.speed_ts == 0:
+        mambo.smart_sleep(0.5)
+        print("remember shot 3 e 4")
     # primas vai ser o primeiro time Stamp (/1000 para converter em Segundos)
     primas = mambo.sensors.speed_ts/1000
     print(primas)
     # print da velocidade antes de arrancar
     print("v= %f"% mambo.sensors.speed_x)
+    
     mambo.fly_direct(0,40,0,0,1)
     mambo.smart_sleep(0.3)
     # retirar a segunda velocidade
@@ -42,11 +48,13 @@ if (success):
     print("v= %f"  % vel)
     d = vel*primas
     print("distancia = %f" % d)
-    
+
+    mambo.smart_sleep(0.3)
     mambo.land()
     mambo.smart_sleep(2)
-    result = d , vel , primas
+    print( d , vel , primas )
 
+    mambo.smart_sleep(2)
     mambo.takeoff()
     mambo.smart_sleep(1)
     mambo.fly_direct(0,-30,0,0,1)
@@ -55,4 +63,3 @@ if (success):
 
     print("disconnect")
     mambo.disconnect()
-    print(result)
