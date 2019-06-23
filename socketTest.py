@@ -49,18 +49,18 @@ while True:
 				mambo1.takeoff()
 				mambo2.takeoff()
 				mambo1.smart_sleep(1)
-				while t < 10:
+				while t < 5:
 					if(t % 2 == 0):
 						print("go up")
-					 	mambo1.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+					 	mambo1.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=30,duration=1)
 						mambo1.smart_sleep(1)
-					 	mambo2.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+					 	mambo2.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=30,duration=1)
 						mambo2.smart_sleep(1)
 					else:
 						print("go down")
 						mambo1.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=-30,duration=1)
 						mambo1.smart_sleep(1)
-					 	mambo2.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=50,duration=1)
+					 	mambo2.fly_direct(roll=0,pitch=0,yaw=0,vertical_movement=-30,duration=1)
 						mambo2.smart_sleep(1)
 					t = t + 1			
 				mambo2.smart_sleep(1)
