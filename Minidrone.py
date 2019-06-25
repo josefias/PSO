@@ -1,7 +1,7 @@
 """
 Mambo class holds all of the methods needed to pilot the drone from python and to ask for sensor
 data back from the drone
-JPPPPPPPPPPPPPPPPPPPPPPPPPP
+
 Author: Amy McGovern, dramymcgovern@gmail.com
 Author: Alexander Zach, https://github.com/alex-zach, groundcam support
 Author: Valentin Benke, https://github.com/Vabe7, groundcam support
@@ -30,14 +30,11 @@ try:
 except:
     OpenCVAvailable = False
     print("OpenCVAvailable is %s" % OpenCVAvailable)
-    
-def atenuar(aux):
 
-    if (aux < -100):
-        return (-100)
-        
-    elif(aux > 100):
-        return (100)
+Kx = 40
+Ky = 100
+Kz = 100
+viz = 0.1
 
 class MinidroneSensors:
     """
@@ -48,7 +45,7 @@ class MinidroneSensors:
 
         # default to full battery
         self.battery = 100
-
+        self.f=0
         # drone on the ground
         self.flying_state = "landed"
 
@@ -70,7 +67,6 @@ class MinidroneSensors:
         self.speed_z = 0
         self.speed_ts = 0
         self.last_speed_ts = 0
-
         # these are only available on wifi
         self.altitude = -1
         self.altitude_ts = 0
@@ -287,11 +283,11 @@ class MamboGroundcam:
         :param filename: the name of the file which should be downloaded ON THE MAMBO.
         :param cv2_flag: if true this function will return a cv2 image object, if false the name of the temporary file will be returned
         :return False if there was an error during download, if cv2 is True a cv2 frame or it just returns the file name of the temporary file
-        """
+        
         # handle the broken firmware upgrade
         if (self.ftp is None):
             return False
-
+        """
         # otherwise return the photos
         self.ftp.cwd(self.MEDIA_PATH)
         try:
@@ -623,12 +619,12 @@ class Minidrone:
         my_pitch = self._ensure_fly_command_in_range(pitch)
         my_yaw = self._ensure_fly_command_in_range(yaw)
         my_vertical = self._ensure_fly_command_in_range(vertical_movement)
-        self.updateXYZ()
+        #self.updateXYZ()
 
         #print("roll is %d pitch is %d yaw is %d vertical is %d" % (my_roll, my_pitch, my_yaw, my_vertical))
         command_tuple = self.command_parser.get_command_tuple(
             "minidrone", "Piloting", "PCMD")
-
+        self.smart_sleep(0.5)
         if (duration is None):
             self.drone_connection.send_single_pcmd_command(
                 command_tuple, my_roll, my_pitch, my_yaw, my_vertical)
@@ -746,76 +742,86 @@ class Minidrone:
             "minidrone", "Piloting", "FlatTrim")
         self.drone_connection.send_noparam_command_packet_ack(command_tuple)
 
+
+   
+
     def updateXYZ(self):
         """
-        By: joão P.
+        By: joao P.
         updates (X,Y,Z) in BLE for de 'self' drone
         :return: 
         """
+        
+        
+        if(self.sensors.f==0):
+            print("###0 ")
+            self.sensors.quaternion_x = 0
+            self.sensors.quaternion_y = 0
+            self.sensors.quaternion_z = 0
+            self.sensors.f = 1
+            self.sensors.last_speed_ts = self.sensors.speed_ts
+            return
         deltaT = 0
         currentTS = self.sensors.speed_ts
-        deltaT = (currentTS - self.sensors.last_speed_ts)/100.0
+        deltaT = (currentTS - self.sensors.last_speed_ts)/1000
         self.sensors.quaternion_x = self.sensors.quaternion_x +    self.sensors.speed_x * deltaT
         self.sensors.quaternion_y = self.sensors.quaternion_y +    self.sensors.speed_y * deltaT
         self.sensors.quaternion_z = self.sensors.quaternion_z + (-self.sensors.speed_z) * deltaT  # velocidade em z é direcionada para baixo, logo
+        print("aqui",self.sensors.speed_x,self.sensors.speed_y,self.sensors.speed_z)
         self.sensors.last_speed_ts = currentTS  # nove time stamp
-        self.smart_sleep(0.5)
 
     def getXYZ(self):
         """
-        By: joão P.
+        By: joao P.
         returns (X,Y,Z) of 'self' drone
         :return: (X,Y,Z)
         """     
         return self.sensors.quaternion_x ,self.sensors.quaternion_y ,self.sensors.quaternion_z
     
+
     def GoTo(self ,xd ,yd ,zd):
+       
+
         """
         By: joão P.
         Sends Drone to (X,Y,Z), if not close enought 
         it will send the drone again correcting the trajectory
         :return: 
         """ 
+        
+        #self.updateXYZ()
         (X ,Y ,Z) = self.getXYZ()
         print("######################")
         print("x- %f,y- %f,z- %f" % (X,Y,Z) )
         varX = xd - X
         varY = yd - Y
         varZ = zd - Z
+
+        # varY = 0 # estes 0's estao aqui apenas para testar o eixo do X
+        varZ = 0 # retirar para utilizar os testes com X,Y,Z
         print("varX- %f,varY- %f,varZ- %f" % (varX,varY,varZ) )
 
-        if (varX<0.5 and varX>(-0.5) and varY<0.5 and varY>(-0.5) and varZ<0.5 and varZ>(-0.5) ):
+        if (varX<viz and varX>(-viz)   ):
             print("CHEGUEI (%.3f,%.3f,%.3f)" % (xd,yd,zd))
             return 1
 
-        #movX = varX**5
-        #movY = varY**3
-        #movZ = varZ**3
-        #print("movX- %f,movY- %f,movZ- %f" % (movX,movY,movZ) )
-        #my_movX = self._ensure_fly_command_in_range(movX)
-        #my_movY = self._ensure_fly_command_in_range(movY)
-        #my_movZ = self._ensure_fly_command_in_range(movZ)
-        if(varX < 0):
-            my_movX = -25
-        else:
-            my_movX = 25
-        
-        if(varY < 0):
-            my_movY = -25
-        else:
-            my_movY = 25
-        
-        if(varZ < 0):
-            my_movZ = -25
-        else:
-            my_movZ = 25 
-                               
+        # Transofrmar a distancia (varX) em potencia (movX) 
+        movX = varX * Kx
+        movY = varY * Ky
+        movZ =  varZ * Kz
+        print("movX- %f,movY- %f,movZ- %f" % (movX,movY,movZ) )
+        my_movX = self._ensure_fly_command_in_range(movX)
+        my_movY = self._ensure_fly_command_in_range(movY)
+        my_movZ = self._ensure_fly_command_in_range(movZ)
+       
         print("movX aten- %d" % (my_movX) )
-        self.fly_direct(roll=my_movY,pitch=my_movX,yaw=0,vertical_movement=my_movZ,duration=0.2)
-        self.smart_sleep(0.2)
+        self.fly_direct(roll=my_movY,pitch=my_movX,yaw=0,vertical_movement=my_movZ,duration=0.5)
+        self.smart_sleep(0.3)
+        #self.updateXYZ()
+
         return self.GoTo(xd,yd,zd)
 
-        
+    
 
 class Mambo(Minidrone):
 

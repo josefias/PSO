@@ -85,8 +85,7 @@ def main():
          x.start()
         
     for drone in droneList:
-        y = threading.Thread( target=drone.GoTo , args=(1,0,0,))
-        y.start()
+        drone.GoTo(1,0,0)
         #print("aqui estamos (%.3f,%.3f,%.3f)" % drone.getXYZ() )
     
     swarmLand()
