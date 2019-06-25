@@ -10,7 +10,7 @@ def run(mambo):
     last = 0
     while True:
         speed = mambo.sensors.speed_x
-        time = mambo.sensors.speed_ts
+        # tempo = mambo.sensors.speed_ts
         if(speed == last):
             quit()
         n = n + 1
@@ -26,14 +26,13 @@ def go(mambo):
         mambo.updateXYZ()
         pos = mambo.getXYZ()
         if(pos == last):
-                quit()
+               quit()
         print(pos)
         time.sleep(0.6)
         last = pos
 
 # you will need to change this to the address of YOUR mambo
-mamboAddr = "d0:3a:e3:53:e6:3a"
-
+mamboAddr = "e0:14:d4:74:3d:fd"
 # make my mambo object
 # remember to set True/False for the wifi depending on if you are 
 mambo = Mambo(mamboAddr, use_wifi=False)
@@ -69,3 +68,4 @@ if (success):
 
     mambo.land()
     mambo.disconnect()
+    x._stop()

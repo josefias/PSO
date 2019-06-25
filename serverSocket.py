@@ -6,7 +6,7 @@ from pyparrot.Minidrone import Mambo
 
 droneList = []
 HEADERSIZE = 10
-fh = open("/home/jony/pyparrot/pyparrot/pyparrot/scripts/test.txt")
+fh = open("drones.txt")
 
 
 
