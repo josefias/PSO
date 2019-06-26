@@ -26,7 +26,7 @@ def controlMode(msg):
     param: 'msg' can be str or tuple containing the ble mac
     '''
     print("we are in control mode")
-    '''
+    
     print("is a list ||%s ||| %s|| " % (msg[0], msg[1]))
     mambo1 = Mambo(msg[0], use_wifi=False)
     mambo2 = Mambo(msg[1], use_wifi=False)
@@ -42,7 +42,7 @@ def controlMode(msg):
         mambo2.smart_sleep(1)
         mambo1.land()
         mambo2.land()
-    '''
+    
 
 ### main ###
 

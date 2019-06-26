@@ -39,22 +39,22 @@ if(msg != "abort"):
 
     else:
         print("is a list ||%s ||| %s|| " % (msg[0].rstrip(), msg[1].rstrip()))
-        '''
+        
         mambo1 = Mambo(msg[0].rstrip(), use_wifi=False)
         mambo2 = Mambo(msg[1].rstrip(), use_wifi=False)
         success = mambo1.connect(num_retries=5)
-        print(success)
+        print(f"manbo 1 - {success}")
         if(success):
             success = mambo2.connect(num_retries=5)
-            print(success)
-        if(success):
-            mambo1.takeoff()
-            mambo2.takeoff()
-            mambo1.smart_sleep(1)
-            mambo2.smart_sleep(1)
-            mambo1.land()
-            mambo2.land()
-        '''    
+            print(f"manbo 2 - {success}")
+            if(success):
+                mambo1.takeoff()
+                mambo2.takeoff()
+                mambo1.smart_sleep(1)
+                mambo2.smart_sleep(1)
+                mambo1.land()
+                mambo2.land()
+            
 else:
     print("there are no drones.\n you can rest now.")
     s.close()
