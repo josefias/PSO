@@ -26,10 +26,10 @@ msg = pickle.loads(msg)
 time.sleep(0.5)
 print(f"recebido {msg}")
 if(msg != "abort"):
-    #msg = msg.split(",")
+    msg = msg.split(",")
     if(len(msg) < 2):
         print(type(msg[0]))  # CODIGO PARA CLIENTE QUE APENAS OPERA 1 DRONE
-        mambo = Mambo(msg[0], use_wifi=False)
+        mambo = Mambo(msg[0].rstrip(), use_wifi=False)
         success = mambo.connect(num_retries=5)
         print(success)
         if(success):
@@ -38,8 +38,7 @@ if(msg != "abort"):
             mambo.land()
 
     else:
-        print("is a list ||%s ||| %s|| " % (msg[0].rstrip(), msg[1].rstrip()))
-        
+        print("is a list ||%s ||| %s|| " %(msg[0].rstrip(),msg[1].rstrip()))
         mambo1 = Mambo(msg[0].rstrip(), use_wifi=False)
         mambo2 = Mambo(msg[1].rstrip(), use_wifi=False)
         success = mambo1.connect(num_retries=5)
