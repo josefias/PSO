@@ -13,9 +13,9 @@ fh = open("drones.txt")
 def sendData(cli , data):
     c , addr = cli
     if(isinstance(data,tuple)):
-        print(f"thread sendData({data}) to -{addr}")
+        print(f"(tuple) thread sendData({data}) to -{addr}")
     elif(isinstance(data,str)):
-        print(f"thread sendData({data.rstrip()}) to -{addr}")
+        print(f"(string) thread sendData({data.rstrip()}) to -{addr}")
     msg = pickle.dumps(data)
     #msg = bytes(f"{len(msg):<{HEADERSIZE}}", 'utf-8')+msg #
     c.send(msg)
@@ -32,7 +32,7 @@ cliList = []
 mamboAddr = fh.readlines()
 droneNum = len(mamboAddr)
 aux = 0
-
+print("waiting for clients...")
 while True:
     # now our endpoint knows about the OTHER endpoint.
     cPi1, addressPi1 = piSocket.accept()

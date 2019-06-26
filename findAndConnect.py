@@ -8,7 +8,7 @@ from pyparrot.Minidrone import Mambo
 import time
 import threading
 droneList = []
-
+threadList = []
 
 def go(mambo):
     last = (111,0,0)
@@ -17,7 +17,7 @@ def go(mambo):
         pos = mambo.getXYZ()
         if(pos == last):
                quit()
-        print(pos)
+        #print(pos)
         time.sleep(0.6)
         last = pos
 
@@ -44,20 +44,19 @@ def swarmTakeoff():
     for drone in droneList:
         #i = 0
         print("sleeping")
-       # drone.smart_sleep(1)
-       # drone.ask_for_state_update()
+        drone.smart_sleep(1)
+        drone.ask_for_state_update()
         drone.smart_sleep(1)
         print("taking off")
         drone.takeoff()
-        
+
         drone.smart_sleep(1)
         while(drone.sensors.speed_ts == 0):
             print("wait for speed sensor")
             drone.smart_sleep(0.1)
         #drone.sensors.quaternion_y = i
         #i = i + 1
-        drone.updateXYZ()
-        
+        #drone.updateXYZ()
 
 
 def swarmLand():
@@ -79,15 +78,17 @@ def main():
 
     swarmAssemble()
     swarmTakeoff()
-    
+    '''	
     for drone in droneList:
-         x = threading.Thread(target=go, args=(drone,) )    
-         x.start()
-        
+        x = threading.Thread(target=go, args=(drone,) )
+        threadList.append(x)
+
+    for thread in threadList:
+        thread.start()
+    '''
     for drone in droneList:
         drone.GoTo(1,0,0)
         #print("aqui estamos (%.3f,%.3f,%.3f)" % drone.getXYZ() )
-    
     swarmLand()
     swarmDisconnect()
 
