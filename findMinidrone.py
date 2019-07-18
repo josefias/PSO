@@ -27,6 +27,7 @@ class ScanDelegate(DefaultDelegate):
             print("Received new data from", dev.addr)
 
 def main():
+    lista = []
     scanner = Scanner().withDelegate(ScanDelegate())
     devices = scanner.scan(10.0)
     fh = open("drones.txt","w")
@@ -39,11 +40,18 @@ def main():
                     print("FOUND A MAMBO!")
                     print("Device %s (%s), RSSI=%d dB" % (dev.addr, dev.addrType, dev.rssi))
                     print("  %s = %s" % (desc, value))
-                    fh.writelines("%s\n" % dev.addr)
+                    mamboName = value.split('_') 
+                    mamboNum = mamboName[1]
+                    lista.append( (dev.addr , mamboNum) )
                 elif ("Swing" in value):
                     print("FOUND A SWING!")
                     print("Device %s (%s), RSSI=%d dB" % (dev.addr, dev.addrType, dev.rssi))
                     print("  %s = %s" % (desc, value))
+    print(f"temos {lista}")
+    lista.sort(key = lambda tup: tup[1])
+    print(f"temos2 {lista}")
+    for address in lista:
+        fh.writelines("%s\n" % address[0])
     fh.close()
 
 
